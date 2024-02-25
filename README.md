@@ -1,3 +1,3 @@
-This repo is for maintainig code cor Flight departure-arrival info display
+This repo is for maintainig code for Flight departure-arrival info display
 
 Source code: Python, Flask,HTML
