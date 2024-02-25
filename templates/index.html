@@ -1,0 +1,56 @@
+<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+
+<script type="text/javascript">
+var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+var intervalID = setInterval(update_values,3000);
+
+  function update_values() {
+        $.getJSON($SCRIPT_ROOT + '/Crypto_Price',
+               
+      function(data) {
+	    var mylist ='';
+		
+	    for (i = 0;i < data.result.length;i++)
+		{
+		  mylist += '<tr>'		  
+		  mylist += '<td>' + data.result[i].Callsign + '</td>';
+		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
+		  mylist += '<td>' + data.result[i].Route + '</td>';
+		  mylist += '<td>' + data.result[i].Status + '</td>';
+		  mylist += '<td>' + data.result[i].DistancefromAirport + '</td>';
+		  mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
+		  mylist += '</tr>'
+		}
+		
+		document.getElementById("result").innerHTML = mylist;
+      });
+      
+    };
+  
+    function stopTextColor() {
+      clearInterval(intervalID);
+    }
+</script>
+
+<body onload="update_values();">
+    <h1>Airport Arrivals/Departures Board</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Callsign</th>
+                <th>Aircraft</th>
+                <th>Route</th>
+                <th>Status</th>
+                <th>Distance from Airport</th>
+                <th>Time Remaining</th>
+            </tr>
+        </thead>
+		
+        <tbody id="result"></tbody>
+		
+    </table>
+
+  <script>
+  </script>	
+	
+</body>
