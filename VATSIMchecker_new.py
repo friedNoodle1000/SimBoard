@@ -75,7 +75,7 @@ def find_coordinates(i, data1):
                     return my_list[7]
                 elif nm_distance >= 2 and i['groundspeed'] < 200 and nm_distance <= 50:
                     return my_list[8]
-                elif i['groundspeed'] > 40 and nm_distance <= 2:
+                elif i['groundspeed'] >= 40 and nm_distance <= 2:
                     return my_list[9]
                 elif i['groundspeed'] < 40 and nm_distance <= 2:
                     return my_list[10]
@@ -253,6 +253,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 else:
                     flight['Distance from Airport (nm)'] = find_coordinates3(i, data1)
                 flight['GS'] = str(i['groundspeed']) + 'kts'
+                
                 flight['Time Remaining'] = find_coordinates4(i, data1)
                 flight_info.append(flight)
                 d += 1
@@ -331,6 +332,9 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
     pd.set_option('display.width', None)
 
     status_order = pd.CategoricalDtype(categories=my_list, ordered=True)
+    if d > 0 or c > 0 or a > 0:
+        df.dropna(subset=['Time Remaining'], inplace=True)
+
     
     if (a+c+d) > 0:
         df['Status'] = df['Status'].astype(status_order)

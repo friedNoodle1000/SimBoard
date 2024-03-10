@@ -5,98 +5,20 @@
 
 <script type="text/javascript">
 var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
-	
-  function update_values_arrival() {
-        $.getJSON($SCRIPT_ROOT + '/Airport/A' + document.getElementById("acode").value,
-               
-      function(data) {
-	    var mylist ='';
-		
-	    for (i = 0;i < data.result.length;i++)
-		{
-		  mylist += '<tr>'		  
-		  mylist += '<td>' + data.result[i].Callsign + '</td>';
-		  mylist += '<td>' + data.result[i].Route + '</td>';
-		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
-		  mylist += '<td>' + data.result[i].Status + '</td>';
-		  mylist += '<td>' + data.result[i].GS + '</td>';
-		  mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
-		  mylist += '</tr>'
-		}
-		
-		document.getElementById("result").innerHTML = mylist;
-		document.getElementById("pagetitle").innerHTML = "Airport Arrivals Board";
-		document.getElementById("dep_arr_fl").value = "A";
-		document.getElementById("fr_dest").innerHTML = "Route";
-      });
-      
-   };	
-   
-  function update_values_departure() {
-        $.getJSON($SCRIPT_ROOT + '/Airport/D' + document.getElementById("acode").value,
-               
-      function(data) {
-	    var mylist ='';
-		
-	    for (i = 0;i < data.result.length;i++)
-		{
-		  mylist += '<tr>'		  
-		  mylist += '<td>' + data.result[i].Callsign + '</td>';
-		  mylist += '<td>' + data.result[i].Route + '</td>';		  
-		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
-		  mylist += '<td>' + data.result[i].Status + '</td>';
-		  mylist += '<td>' + data.result[i].GS + '</td>';
-		  mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
-		  mylist += '</tr>'
-		}
-		
-		document.getElementById("result").innerHTML = mylist;
-		document.getElementById("pagetitle").innerHTML = "Airport Departures Board";
-		document.getElementById("dep_arr_fl").value = "D";
-		document.getElementById("fr_dest").innerHTML = "Route";
-      });
-      
-    };	   
-	
-	function update_values_status() {
-        $.getJSON($SCRIPT_ROOT + '/Airport/S' + document.getElementById("acode").value,
-               
-      function(data) {
-	    var mylist ='';
-		
-	    for (i = 0;i < data.result.length;i++)
-		{
-		  mylist += '<tr>'		  
-		  mylist += '<td>' + data.result[i].Callsign + '</td>';
-		  mylist += '<td>' + data.result[i].Route + '</td>';		  
-		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
-		  mylist += '<td>' + data.result[i].Status + '</td>';
-		  mylist += '<td>' + data.result[i].GS + '</td>';
-		  mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
-		  mylist += '</tr>'
-		}
-		
-		document.getElementById("result").innerHTML = mylist;
-		document.getElementById("pagetitle").innerHTML = "Flight Status";
-		document.getElementById("dep_arr_fl").value = "S";
-		document.getElementById("fr_dest").innerHTML = "Route";
-      });
-      
-    };	  
-
-</script>
-
-<script type="text/javascript">
-var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 var intervalID = setInterval(update_values,15000);
 
-
   function update_values() {
+      
+	   if (document.getElementById("acode").value == "")
+	   {
+	    return(0);
+	   }
+  
         $.getJSON($SCRIPT_ROOT + '/Airport/' + document.getElementById("dep_arr_fl").value + document.getElementById("acode").value,
                
       function(data) {
 	    var mylist ='';
-		
+		var flightCount = 0;
 	    for (i = 0;i < data.result.length;i++)
 		{
 		  mylist += '<tr>'		  
@@ -114,50 +36,136 @@ var intervalID = setInterval(update_values,15000);
 		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
 		  mylist += '<td>' + data.result[i].Status + '</td>';
 		  mylist += '<td>' + data.result[i].GS + '</td>';
-		  mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
+		  if (data.result[i].Status == "SCHEDULED" || data.result[i].Status == "PRE-DEPARTURE" || data.result[i].Status == "TAXIING FOR TAKEOFF / LEFT GATE" || data.result[i].Status == "TAKING OFF" || data.result[i].Status == "CLIMBING")
+		  {
+			if (data.result[i].TimeRemaining != "---")
+			{
+				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + ' (Sched.)' + '</td>';
+			}
+			else
+			{
+				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + '</td>';		  
+			}
+		  }
+		  else
+		  {
+		    mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
+		  }		  
 		  mylist += '</tr>'
+		  flightCount++;
 		}
 		
 		document.getElementById("fr_dest").innerHTML = "Route";
 		
 		if (document.getElementById("dep_arr_fl").value == "D") 
 		   {
-             document.getElementById("pagetitle").innerHTML = "Airport Departures Board";
+             document.getElementById("pagetitle").innerHTML = flightCount + " Departures From " + document.getElementById("acode").value.toUpperCase();
 			 
 		   }
 		else if (document.getElementById("dep_arr_fl").value == "A") 
 		   {
-             document.getElementById("pagetitle").innerHTML = "Airport Arrivals Board";			 
+             document.getElementById("pagetitle").innerHTML = flightCount + " Aircraft Bound For " + document.getElementById("acode").value.toUpperCase();			 
 		   }   
 		else    
            {
-		     document.getElementById("pagetitle").innerHTML = "Flight Status";
+		     document.getElementById("pagetitle").innerHTML = flightCount + " " + document.getElementById("acode").value.toUpperCase() + " flights on server";
 		   }
 		
 		document.getElementById("result").innerHTML = mylist;
 	
       });
+	  
+	  return(1);
       
     };
   
     function stopTextColor() {
       clearInterval(intervalID);
     }
+	
+  function update_values_arrival() {
+		
+		if (document.getElementById("acode_main").value == "")
+		{
+		  return;
+		};
+		
+		document.getElementById("acode").value = document.getElementById("acode_main").value;
+		document.getElementById("dep_arr_fl").value = "A";
+
+        if (update_values() == 1)
+		{
+			document.getElementById("fcode_main").value = "";
+			document.getElementById("fcode_main").innerHTML = "";		
+		};
+   };	
+   
+  function update_values_departure() {
+  
+		if (document.getElementById("acode_main").value == "")
+		{
+		  return;
+		};  
+  
+		document.getElementById("acode").value = document.getElementById("acode_main").value;
+		document.getElementById("dep_arr_fl").value = "D";
+
+        if (update_values() == 1)
+		{
+			document.getElementById("fcode_main").value = "";
+			document.getElementById("fcode_main").innerHTML = "";		
+		};
+    };	   
+	
+	function update_values_status() {
+
+		if (document.getElementById("fcode_main").value == "")
+		{
+		  return;
+		};
+		
+		document.getElementById("acode").value = document.getElementById("fcode_main").value;		
+		document.getElementById("dep_arr_fl").value = "S";
+
+        if (update_values() == 1)
+		{
+			document.getElementById("acode_main").value = "";
+			document.getElementById("acode_main").innerHTML = "";		
+		};
+    };	  
+
 </script>
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<div class = "firstp1">
-		<span class = "box"><a href="javascript:update_values_arrival()"><img src="{{url_for('static', filename='arrivals.jpg')}}" width="100" height="132"/></a></span>
-		<span class = "box"><a href="javascript:update_values_departure()"><img src="{{url_for('static', filename='departures.jpg')}}" width="100" height="132"/></a></span>
-		<span class = "box"><a href="javascript:update_values_status()"><img src="{{url_for('static', filename='status.jpg')}}" width="100" height="132"/></a></span>
-		</span>
-	</div>		
-
-	<p>Airport Code</p>
-    <input type="hidden" id="dep_arr_fl" name="dep_arr" value="D">
-    <input type="text" id="acode" name="airport_code" placeholder="ICAO code goes here..." required>
-    <title>Airport Departures Board</title>
+	<div class="image-links">
+		<div class="left">
+			<a href="javascript:update_values_departure()"><img src="{{url_for('static', filename='departures.jpg')}}" width="75" height="75"/></a>
+			<a href="javascript:update_values_arrival()"><img src="{{url_for('static', filename='arrivals.jpg')}}" width="75" height="75"/></a>	
+		</div>
+		
+		<div class="center">
+            <h1 id="pagetitle">Airport Departures Board</h1>			
+		</div>
+		<div class="right">
+		    <a href="javascript:update_values_status()"><img src="{{url_for('static', filename='status.jpg')}}" width="75" height="75"/></a>
+		</div>
+	</div>	
+	
+	<div class="image-links1">
+		<div class="left1">
+			<p style="display: inline;">Airport Search</p>			
+			<input type="text" id="acode_main" name="acode_main" placeholder="ICAO code goes here..." value="" required>			
+			<input type="hidden" id="dep_arr_fl" name="dep_arr" value="D">
+			<input type="hidden" id="acode" name="acode" value="">
+		</div>	
+		<div class="right1">
+			<p style="display: inline;">Airline Flight Status </p>			
+			<input type="text" id="fcode_main" name="fcode_main" placeholder="Callsign goes here..." required>			
+		</div>			
+	</div>	
+    
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -166,7 +174,6 @@ var intervalID = setInterval(update_values,15000);
             padding: 20px;
             display: flex;
             flex-direction: column;
-            align-items: center;
             min-height: 100vh;
         }
 
@@ -202,7 +209,7 @@ var intervalID = setInterval(update_values,15000);
         }
 
         tbody tr:nth-child(even) {
-            background-color: #e0e0e0;
+            background-color: #f2f2f2;
         }
 		
 		tbody tr:hover {
@@ -212,10 +219,32 @@ var intervalID = setInterval(update_values,15000);
 		th:nth-child(4), td:nth-child(4) {
             font-weight: 500;
         }
+
+		.image-links {
+			display: flex;
+			justify-content: space-between;
+		}
+
+		.left, .center, .right {
+			flex-grow: 1;
+		}
+
+		.center {
+			text-align: center;
+		}
+		
+		.right {
+			text-align: right;
+		}		
+		
+		.image-links1 {
+			display: flex;
+			justify-content: space-between;
+		}	
     </style>
 </head>
+<br>
 <body onload="update_values();">
-    <h1 id="pagetitle">Airport Departures Board</h1>
 
     <table>
         <thead>
