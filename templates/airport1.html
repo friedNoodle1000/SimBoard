@@ -1,138 +1,143 @@
 <!DOCTYPE html>
 <html lang="en">
 
-<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script>
 
 <script type="text/javascript">
 var $SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
 var intervalID = setInterval(update_values,15000);
 
   function update_values() {
-      
+
 	   if (document.getElementById("acode").value == "")
 	   {
 	    return(0);
 	   }
-  
+
         $.getJSON($SCRIPT_ROOT + '/Airport/' + document.getElementById("dep_arr_fl").value + document.getElementById("acode").value,
-               
+
       function(data) {
 	    var mylist ='';
 		var flightCount = 0;
+		var imgstr = '';
+
 	    for (i = 0;i < data.result.length;i++)
 		{
-		  mylist += '<tr>'		  
+          imgstr = '"{{url_for('static', filename='XXX')}}"'.replace('XXX',data.result[i].fimage);
+
+		  mylist += '<tr>'
+		  mylist += '<td><img src=' + imgstr + ' onerror="this.src=\'default.jpg\'" width="40" height="40"/> ' + '</td>';
 		  mylist += '<td>' + data.result[i].Callsign + '</td>';
-		  
-          if (document.getElementById("dep_arr_fl").value == "D") 
+
+          if (document.getElementById("dep_arr_fl").value == "D")
 		    {
              mylist += '<td>' + data.result[i].Route + '</td>';
 		    }
-		 else    
+		 else
             {
 		     mylist += '<td>' + data.result[i].Route + '</td>';
-		    }		  
-		  
-		  mylist += '<td>' + data.result[i].Aircraft + '</td>';
+		    }
+
+		  mylist += '<td>' + data.result[i].Aircraft  + '</td>';
 		  mylist += '<td>' + data.result[i].Status + '</td>';
 		  mylist += '<td>' + data.result[i].GS + '</td>';
-		  if (data.result[i].Status == "SCHEDULED" || data.result[i].Status == "PRE-DEPARTURE" || data.result[i].Status == "TAXIING FOR TAKEOFF / LEFT GATE" || data.result[i].Status == "TAKING OFF" || data.result[i].Status == "CLIMBING")
+		  if (parseInt(data.result[i].GS) < 250 && (data.result[i].Status == 'SCHEDULED' || data.result[i].Status == 'PRE-DEPARTURE' || data.result[i].Status == 'TAXIING FOR TAKEOFF / LEFT GATE' || data.result[i].Status == 'TAKING OFF' || data.result[i].Status == 'EN ROUTE'))
 		  {
 			if (data.result[i].TimeRemaining != "---")
 			{
-				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + ' (Sched.)' + '</td>';
+				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + ' (filed)' + '</td>';
 			}
 			else
 			{
-				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + '</td>';		  
+				mylist += '<td style="opacity:0.6"> ' + data.result[i].TimeRemaining + '</td>';
 			}
 		  }
 		  else
 		  {
-		    mylist += '<td>' + data.result[i].TimeRemaining + '</td>';		  
-		  }		  
+		    mylist += '<td>' + data.result[i].TimeRemaining + '</td>';
+		  }
 		  mylist += '</tr>'
 		  flightCount++;
 		}
-		
+
 		document.getElementById("fr_dest").innerHTML = "Route";
-		
-		if (document.getElementById("dep_arr_fl").value == "D") 
+
+		if (document.getElementById("dep_arr_fl").value == "D")
 		   {
              document.getElementById("pagetitle").innerHTML = flightCount + " Departures From " + document.getElementById("acode").value.toUpperCase();
-			 
+
 		   }
-		else if (document.getElementById("dep_arr_fl").value == "A") 
+		else if (document.getElementById("dep_arr_fl").value == "A")
 		   {
-             document.getElementById("pagetitle").innerHTML = flightCount + " Aircraft Bound For " + document.getElementById("acode").value.toUpperCase();			 
-		   }   
-		else    
+             document.getElementById("pagetitle").innerHTML = flightCount + " Aircraft Bound For " + document.getElementById("acode").value.toUpperCase();
+		   }
+		else
            {
 		     document.getElementById("pagetitle").innerHTML = flightCount + " " + document.getElementById("acode").value.toUpperCase() + " flights on server";
 		   }
-		
+
 		document.getElementById("result").innerHTML = mylist;
-	
+
       });
-	  
+
 	  return(1);
-      
+
     };
-  
+
     function stopTextColor() {
       clearInterval(intervalID);
     }
-	
+
   function update_values_arrival() {
-		
+
 		if (document.getElementById("acode_main").value == "")
 		{
 		  return;
 		};
-		
+
 		document.getElementById("acode").value = document.getElementById("acode_main").value;
 		document.getElementById("dep_arr_fl").value = "A";
 
         if (update_values() == 1)
 		{
 			document.getElementById("fcode_main").value = "";
-			document.getElementById("fcode_main").innerHTML = "";		
+			document.getElementById("fcode_main").innerHTML = "";
 		};
-   };	
-   
+   };
+
   function update_values_departure() {
-  
+
 		if (document.getElementById("acode_main").value == "")
 		{
 		  return;
-		};  
-  
+		};
+
 		document.getElementById("acode").value = document.getElementById("acode_main").value;
 		document.getElementById("dep_arr_fl").value = "D";
 
         if (update_values() == 1)
 		{
 			document.getElementById("fcode_main").value = "";
-			document.getElementById("fcode_main").innerHTML = "";		
+			document.getElementById("fcode_main").innerHTML = "";
 		};
-    };	   
-	
+    };
+
 	function update_values_status() {
 
 		if (document.getElementById("fcode_main").value == "")
 		{
 		  return;
 		};
-		
-		document.getElementById("acode").value = document.getElementById("fcode_main").value;		
+
+		document.getElementById("acode").value = document.getElementById("fcode_main").value;
 		document.getElementById("dep_arr_fl").value = "S";
 
         if (update_values() == 1)
 		{
 			document.getElementById("acode_main").value = "";
-			document.getElementById("acode_main").innerHTML = "";		
+			document.getElementById("acode_main").innerHTML = "";
 		};
-    };	  
+    };
 
 </script>
 
@@ -142,39 +147,39 @@ var intervalID = setInterval(update_values,15000);
 	<div class="image-links">
 		<div class="left">
 			<a href="javascript:update_values_departure()"><img src="{{url_for('static', filename='departures.jpg')}}" width="75" height="75"/></a>
-			<a href="javascript:update_values_arrival()"><img src="{{url_for('static', filename='arrivals.jpg')}}" width="75" height="75"/></a>	
+			<a href="javascript:update_values_arrival()"><img src="{{url_for('static', filename='arrivals.jpg')}}" width="75" height="75"/></a>
 		</div>
-		
+
 		<div class="center">
-            <h1 id="pagetitle">Airport Departures Board</h1>			
+            <h1 id="pagetitle">Airport Departures Board</h1>
 		</div>
 		<div class="right">
 		    <a href="javascript:update_values_status()"><img src="{{url_for('static', filename='status.jpg')}}" width="75" height="75"/></a>
 		</div>
-	</div>	
-	
+	</div>
+
 	<div class="image-links1">
 		<div class="left1">
-			<p style="display: inline;">Airport Search</p>			
-			<input type="text" id="acode_main" name="acode_main" placeholder="ICAO code goes here..." value="" required>			
+			<p style="display: inline;">Airport Search</p>
+			<input type="text" id="acode_main" name="acode_main" placeholder="ICAO code goes here..." value="" required>
 			<input type="hidden" id="dep_arr_fl" name="dep_arr" value="D">
 			<input type="hidden" id="acode" name="acode" value="">
-		</div>	
+		</div>
 		<div class="right1">
-			<p style="display: inline;">Airline Flight Status </p>			
-			<input type="text" id="fcode_main" name="fcode_main" placeholder="Callsign goes here..." required>			
-		</div>			
-	</div>	
-    
+			<p style="display: inline;">Airline Flight Status </p>
+			<input type="text" id="fcode_main" name="fcode_main" placeholder="Callsign goes here..." required>
+		</div>
+	</div>
+
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: white;
-            margin: 0;
-            padding: 20px;
-            display: flex;
-            flex-direction: column;
-            min-height: 100vh;
+                font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+                background-color: white;
+                margin: 0;
+                padding: 20px;
+                display: flex;
+                flex-direction: column;
+                min-height: 100vh;
         }
 
         h2 {
@@ -193,8 +198,8 @@ var intervalID = setInterval(update_values,15000);
         }
 
         th, td {
-            
-            padding: 15px;
+
+            padding: 10px;
             text-align: center;
             font-size: 150%;
         }
@@ -209,16 +214,18 @@ var intervalID = setInterval(update_values,15000);
         }
 
         tbody tr:nth-child(even) {
-            background-color: #f2f2f2;
+            background-color: #f0f0f0;
         }
-		
+
 		tbody tr:hover {
-			opacity: 0.8; 
+			opacity: 0.8;
 		}
-		
-		th:nth-child(4), td:nth-child(4) {
+
+		td:nth-child(5) {
             font-weight: 500;
+            color: #008a00;
         }
+
 
 		.image-links {
 			display: flex;
@@ -232,15 +239,15 @@ var intervalID = setInterval(update_values,15000);
 		.center {
 			text-align: center;
 		}
-		
+
 		.right {
 			text-align: right;
-		}		
-		
+		}
+
 		.image-links1 {
 			display: flex;
 			justify-content: space-between;
-		}	
+		}
     </style>
 </head>
 <br>
@@ -249,6 +256,7 @@ var intervalID = setInterval(update_values,15000);
     <table>
         <thead>
             <tr>
+                <th></th>
                 <th>Callsign</th>
                 <th id= "fr_dest">Route</th>
                 <th>Aircraft</th>
@@ -257,7 +265,7 @@ var intervalID = setInterval(update_values,15000);
                 <th>Time Remaining</th>
             </tr>
         </thead>
-		
+
 		<tbody id="result"></tbody>
 
     </table>

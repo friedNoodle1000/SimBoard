@@ -31,6 +31,266 @@ global previous_speeds_ind
 global process_stats
 global process_stats_prv
 global myjson
+global flight_img_lookup
+
+flight_img_lookup = {
+"CLX":"CLX.jpg",
+"UKV":"UKV.jpg",
+"GTI":"GTI.jpg",
+"FDX":"FDX.jpg",
+"NOZ":"NOZ.jpg",
+"LDM":"LDM.jpg",
+"WAT":"WAT.jpg",
+"WZZ":"WZZ.jpg",
+"WMT":"WMT.jpg",
+"WJA":"WJA.jpg",
+"VTI":"VTI.jpg",
+"VOZ":"VOZ.jpg",
+"VOI":"VOI.jpg",
+"VLG":"VLG.jpg",
+"VIV":"VIV.jpg",
+"VIR":"VIR.jpg",
+"UGD":"UGD.jpg",
+"UAL":"UAL.jpg",
+"TZP":"TZP.jpg",
+"TVJ":"TVJ.jpg",
+"TUA":"TUA.jpg",
+"TRA":"TRA.jpg",
+"TLM":"TLM.jpg",
+"THY":"THY.jpg",
+"TAR":"TAR.jpg",
+"PLM":"PLM.jpg",
+"HVN":"HVN.jpg",
+"GCR":"GCR.jpg",
+"CXA":"CXA.jpg",
+"TVS":"TVS.jpg",
+"TOM":"TUI.png",
+"THA":"THA.jpg",
+"TGW":"TGW.jpg",
+"TAP":"TAP.jpg",
+"SXS":"SXS.jpg",
+"SWR":"SWR.jpg",
+"SWG":"SWG.jpg",
+"SWA":"SWA.jpg",
+"SLM":"SLM.jpg",
+"SKU":"SKU.jpg",
+"SJX":"SJX.jpg",
+"SIA":"SIA.jpg",
+"SEJ":"SEJ.jpg",
+"SDM":"SDM.jpg",
+"SCX":"SCX.jpg",
+"SBI":"SBI.jpg",
+"SAS":"SAS.jpg",
+"SAA":"SAA.jpg",
+"RYR":"RYR.jpg",
+"RJA":"RJA.jpg",
+"RBA":"RBA.jpg",
+"RAM":"RAM.jpg",
+"QTR":"QTR.jpg",
+"QFA":"QFA.jpg",
+"PGT":"PGT.jpg",
+"OMS":"OMS.jpg",
+"NKS":"NKS.jpg",
+"DTA":"DTA.jpg",
+"DLH":"DLH.jpg",
+"CSZ":"CSZ.jpg",
+"CQH":"CQH.jpg",
+"APJ":"APJ.jpg",
+"ALK":"ALK.jpg",
+"SHT":"BAW.jpg",
+"RVF":"RVF.jpg",
+"PIA":"PIA.jpg",
+"PAL":"PAL.jpg",
+"OMA":"OMA.jpg",
+"NRL":"NRL.jpg",
+"NOS":"NOS.jpg",
+"NOK":"NOK.jpg",
+"NIA":"NIA.jpg",
+"NGR":"NGR.jpg",
+"MEA":"MEA.jpg",
+"MAY":"MAY.jpg",
+"MAS":"MAS.jpg",
+"LVL":"LVL.jpg",
+"LOT":"LOT.jpg",
+"LNI":"LNI.jpg",
+"LGL":"LGL.jpg",
+"LAN":"LAN.jpg",
+"KQA":"KQA.jpg",
+"KOS":"KOS.jpg",
+"KAR":"KAR.jpg",
+"KAL":"KAL.jpg",
+"FPY":"FPY.jpg",
+"GFA":"GFA.jpg",
+"GIA":"GIA.jpg",
+"HAL":"HAL.jpg",
+"GLO":"GLO.jpg",
+"KNE":"KNE.jpg",
+"KLM":"KLM.jpg",
+"JZR":"JZR.jpg",
+"JSX":"JSX.jpg",
+"JST":"JST.jpg",
+"JJA":"JJA.jpg",
+"JBU":"JBU.jpg",
+"JAL":"JAL.jpg",
+"ITY":"ITY.jpg",
+"IRA":"IRA.jpg",
+"IGO":"IGO.jpg",
+"ICE":"ICE.jpg",
+"IBS":"IBS.jpg",
+"IBJ":"IBJ.jpg",
+"IBE":"IBE.jpg",
+"IAW":"IAW.jpg",
+"HYI":"HYI.jpg",
+"HKE":"HKE.jpg",
+"FMX":"FMX.jpg",
+"FIN":"FIN.jpg",
+"FFT":"FFT.jpg",
+"FEG":"FEG.jpg",
+"FDB":"FDB.jpg",
+"FBU":"FBU.jpg",
+"FBK":"FBK.jpg",
+"FAD":"FAD.jpg",
+"EXS":"EXS.jpg",
+"CHH":"CHH.jpg",
+"AWQ":"AWQ.jpg",
+"UEA":"UEA.jpg",
+"UAE":"UAE.jpg",
+"RYS":"RYS.jpg",
+"MSR":"MSR.jpg",
+"MMZ":"MMZ.jpg",
+"MPE":"MPE.jpg",
+"KME":"KME.jpg",
+"KAP":"KAP.jpg",
+"FJI":"FJI.jpg",
+"EZY":"EZY.jpg",
+"EWG":"EWG.jpg",
+"EVA":"EVA.jpg",
+"ETH":"ETH.jpg",
+"ETD":"ETD.jpg",
+"ELY":"ELY.jpg",
+"EJU":"EJU.jpg",
+"EDW":"EDW.jpg",
+"DAL":"DAL.jpg",
+"CYP":"CYP.jpg",
+"CUB":"CUB.jpg",
+"CUA":"CUA.jpg",
+"CTV":"CTV.jpg",
+"CTN":"CTN.jpg",
+"CSN":"CSN.jpg",
+"CRL":"CRL.jpg",
+"CRC":"CRC.jpg",
+"CQN":"CQN.jpg",
+"CPA":"CPA.jpg",
+"CMP":"CMP.jpg",
+"CFG":"CFG.jpg",
+"CES":"CES.jpg",
+"CEB":"CEB.jpg",
+"CAL":"CAL.jpg",
+"CAY":"CAY.jpg",
+"BWA":"BWA.jpg",
+"BRQ":"BRQ.jpg",
+"BEL":"BEL.jpg",
+"VXP":"VXP.jpg",
+"RZO":"RZO.jpg",
+"ROI":"ROI.jpg",
+"NGT":"NGT.jpg",
+"MXY":"MXY.jpg",
+"LLR":"LLR.jpg",
+"FLI":"FLI.jpg",
+"DLM":"DLM.jpg",
+"BTN":"BTN.jpg",
+"BTK":"BTK.jpg",
+"BTI":"BTI.jpg",
+"BRU":"BRU.jpg",
+"BLU":"BLU.jpg",
+"BKP":"BKP.jpg",
+"BHS":"BHS.jpg",
+"BBC":"BBC.jpg",
+"BAW":"BAW.jpg",
+"BAV":"BAV.jpg",
+"AZW":"AZW.jpg",
+"AZU":"AZU.jpg",
+"AXY":"AXY.jpg",
+"AXM":"AXM.jpg",
+"AWT":"AWT.jpg",
+"AVA":"AVA.jpg",
+"AUA":"AUA.jpg",
+"ASA":"ASA.jpg",
+"ARU":"ARU.jpg",
+"AND":"AND.jpg",
+"ANA":"ANA.jpg",
+"AKJ":"AKJ.jpg",
+"AJA":"AJA.jpg",
+"AHY":"AHY.jpg",
+"ADH":"ADH.jpg",
+"ACI":"ACI.jpg",
+"AAY":"AAY.jpg",
+"AAR":"AAR.jpg",
+"AAL":"AAL.jpg",
+"TSC":"TSC.jpg",
+"THT":"THT.jpg",
+"SZN":"SZN.jpg",
+"SLI":"SLI.jpg",
+"ROU":"ROU.jpg",
+"REU":"REU.jpg",
+"MNG":"MNG.jpg",
+"MSC":"MSC.jpg",
+"MAU":"MAU.jpg",
+"KZR":"KZR.jpg",
+"HOP":"HOP.jpg",
+"GRL":"GRL.jpg",
+"FWI":"FWI.jpg",
+"EIN":"EIN.jpg",
+"DAH":"DAH.jpg",
+"CCA":"CCA.jpg",
+"AXB":"AXB.jpg",
+"AWA":"AWA.jpg",
+"ASV":"ASV.jpg",
+"ASL":"ASL.jpg",
+"ARG":"ARG.jpg",
+"ANZ":"ANZ.jpg",
+"ANG":"ANG.jpg",
+"AMX":"AMX.jpg",
+"AMU":"AMU.jpg",
+"AMC":"AMC.jpg",
+"AIE":"AIE.jpg",
+"AIC":"AIC.jpg",
+"AFR":"AFR.jpg",
+"AFL":"AFL.jpg",
+"AEE":"AEE.jpg",
+"AEA":"AEA.jpg",
+"ACA":"ACA.jpg",
+"ABY":"ABY.jpg",
+"ABL":"ABL.jpg",
+"LZB":"LZB.png",
+"SVA":"SVA.png",
+"SKW":"SKW.jpg",
+"GWI":"GWI.jpg",
+"EZS":"EZS.jpg",
+"ENY":"ENY.jpg",
+"PRM":"PRM.jpg",
+"NWA":"DAL.jpg",
+"TWA":"AAL.jpg",
+"AWE":"AAL.jpg",
+"USA":"AAL.jpg",
+"BVX":"BVX.png",
+"UPS":"UPS.png",
+"VJT":"VJT.png",
+"SIL":"SIL.png",
+"EK":"UAE.jpg",
+"AA":"AAL.jpg",
+"WN":"SWA.jpg",
+"JIA":"AAL.jpg",
+"TUI":"TUI.png",
+"ABW":"ABW.png",
+"PAY":"PAY.jpg",
+"GEC":"DLH.jpg",
+"BER":"BER.jpg",
+"EJA":"EJA.png",
+"KLC":"KLM.jpg",
+"TPC":"TPC.jpg",
+"BCS":"BCS.png",
+}
 
 # File path to store and retrieve previous speeds
 groundspeeds_file = "previous_groundspeeds.json"
@@ -49,7 +309,7 @@ def haversine(lat1, long1, lat2, long2):
     y = 2 * asin(sqrt(x))
     return radius * y
 
-my_list = ['SCHEDULED', 'PRE-DEPARTURE', 'HOLDING POSITION', 'TAXIING FOR TAKEOFF / LEFT GATE', 'TAKING OFF', 'CLIMBING', 'EN ROUTE', 'DESCENDING', 'FINAL APPROACH', 'ARRIVING SHORTLY', 'LANDED / TAXIING TO GATE', 'ARRIVED']
+my_list = ['SCHEDULED', 'PRE-DEPARTURE', 'HOLDING POSITION', 'TAXIING FOR TAKEOFF / LEFT GATE', 'TAKING OFF', 'EN ROUTE', 'DESCENDING', 'FINAL APPROACH', 'ARRIVING SHORTLY', 'LANDED']
 
 def find_coordinates(i, data1):
     global distance
@@ -66,19 +326,19 @@ def find_coordinates(i, data1):
             long1 = i['longitude']
             distance = haversine(lat1, long1, lat2, long2)
             nm_distance = distance * 0.86897624
-            if i['groundspeed'] == 0 and nm_distance <= 2:
-                return my_list[11]
+            if i['groundspeed'] == 0 and nm_distance <= 4:
+                return my_list[9]
             if i['groundspeed'] != 0:
                 if nm_distance > 50 and i['altitude'] > 10000:
+                    return my_list[5]
+                elif nm_distance >= 4 and nm_distance <= 50 and i['groundspeed'] >= 215:
                     return my_list[6]
-                elif nm_distance >= 2 and nm_distance <= 50 and i['groundspeed'] >= 200:
+                elif nm_distance >= 4 and i['groundspeed'] < 215 and nm_distance <= 50 and i['groundspeed'] > 50:
                     return my_list[7]
-                elif nm_distance >= 2 and i['groundspeed'] < 200 and nm_distance <= 50:
+                elif i['groundspeed'] >= 50 and nm_distance <= 4 and i['groundspeed'] < 200:
                     return my_list[8]
-                elif i['groundspeed'] >= 40 and nm_distance <= 2:
+                elif i['groundspeed'] < 50 and nm_distance <= 4:
                     return my_list[9]
-                elif i['groundspeed'] < 40 and nm_distance <= 2:
-                    return my_list[10]
 
 def find_coordinates3(i, data1):
     global distance
@@ -111,7 +371,7 @@ def find_coordinates4(i, data1):
             distance = haversine(lat1, long1, lat2, long2)
             nm_distance = distance * 0.86897624
             my_string = i['flight_plan']['enroute_time']
-            if i['groundspeed'] > 40 and (i['groundspeed'] >= 300 or nm_distance <= 100):
+            if i['groundspeed'] > 50 and (i['groundspeed'] >= 250 or nm_distance <= 100):
                 hours = nm_distance / i['groundspeed']
                 total_minutes = hours * 60
                 converted_hours = total_minutes // 60
@@ -161,12 +421,14 @@ def find_coordinates2(i, data1):
                 cm = tm % 60
                 xMin1 = round(cm, 0)
 
-                if i['groundspeed'] < 40 and nauticalMiles < 5:
+                if i['groundspeed'] < 50 and nauticalMiles < 5:
                     return my_list[3]
-                elif i['groundspeed'] >= 40 and i['groundspeed'] <= 200 and nauticalMiles <= 50:
+                elif i['groundspeed'] >= 50 and i['groundspeed'] <= 200 and nauticalMiles <= 50:
                     return my_list[4]
                 elif i['altitude'] <= 10000 and nauticalMiles <= 50:
                     return my_list[5]
+                else:
+                    return my_list[6]
 
 def nm(i, data1):
     global distance
@@ -184,6 +446,14 @@ def nm(i, data1):
             #return math.trunc(round(nauticalMiles, 0))
             return nauticalMiles
 
+def get_flight_img(mystr):
+    global flight_img_lookup
+
+    if mystr[:3] in flight_img_lookup:
+       return(flight_img_lookup[mystr[:3]])
+    else:
+       return("default.jpg")
+
 choice, input_depCode, input_arrivalCode, input_callsign = None, None, None, None
 
 def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
@@ -193,16 +463,17 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
     global x, y
 
     global lat1, lat2, long1, long2
+    global flight_img_lookup
 
     response = requests.get(url)
     data = response.json()
-    
+
     if p_dep_arr_tag == 'D':
-       choice = 'departure'    
+       choice = 'departure'
     elif p_dep_arr_tag == 'A':
        choice = 'arrival'
     else:
-       choice = 'status'     
+       choice = 'status'
 
     #choice = input('Departure, Arrival, or Live Flight Status? (type in departure, arrival, or status) >>> ')
     if choice == 'departure':
@@ -239,7 +510,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 flight = {
                     'Callsign': i['callsign'],
                     'Aircraft': i['flight_plan']['aircraft_short'],
-                    'Route': i['flight_plan']['departure'] + ' -> ' + i['flight_plan']['arrival'],
+                    'Route': i['flight_plan']['departure'] + ' - ' + i['flight_plan']['arrival'],
                 }
                 new1_status = find_coordinates(i, data1)
                 if new1_status is None:
@@ -253,7 +524,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 else:
                     flight['Distance from Airport (nm)'] = find_coordinates3(i, data1)
                 flight['GS'] = str(i['groundspeed']) + 'kts'
-                
+
                 flight['Time Remaining'] = find_coordinates4(i, data1)
                 flight_info.append(flight)
                 d += 1
@@ -262,7 +533,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 flight = {
                     'Callsign': i['callsign'],
                     'Aircraft': i['flight_plan']['aircraft_short'],
-                    'Route': i['flight_plan']['departure'] + ' -> ' + i['flight_plan']['arrival'],
+                    'Route': i['flight_plan']['departure'] + ' - ' + i['flight_plan']['arrival'],
                 }
 
                 new2_status = find_coordinates(i, data1)
@@ -286,7 +557,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 flight = {
                     'Callsign': i['callsign'],
                     'Aircraft': i['flight_plan']['aircraft_short'],
-                    'Route': i['flight_plan']['departure'] + ' -> ' + i['flight_plan']['arrival'],
+                    'Route': i['flight_plan']['departure'] + ' - ' + i['flight_plan']['arrival'],
                 }
                 new3_status = find_coordinates(i, data1)
                 if new3_status is None:
@@ -308,7 +579,7 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
                 flight = {
                     'Callsign': i['callsign'],
                     'Aircraft': i['flight_plan']['aircraft_short'],
-                    'Route': i['flight_plan']['departure'] + ' -> ' + i['flight_plan']['arrival'],
+                    'Route': i['flight_plan']['departure'] + ' - ' + i['flight_plan']['arrival'],
                 }
                 new_status = find_coordinates(i, data1)
                 if new_status is None:
@@ -335,30 +606,31 @@ def parse_json_url(url, url2,p_dep_arr_tag,airportcode):
     if d > 0 or c > 0 or a > 0:
         df.dropna(subset=['Time Remaining'], inplace=True)
 
-    
+
     if (a+c+d) > 0:
+        df["fimage"] = df["Callsign"].apply(get_flight_img)
         df['Status'] = df['Status'].astype(status_order)
 
         #if choice == 'departure':
         #    df_sorted = df.sort_values(by=['Status', 'Distance from Airport (nm)'], ascending=[True, True])
         #else:
         #    df_sorted = df.sort_values(by=['Status', 'Distance from Airport (nm)'], ascending=[False, True])
-            
+
         df_sorted = df
         df_sorted.rename(columns={"Time Remaining" : "TimeRemaining"}, inplace=True)
         df_sorted.rename(columns={"Distance from Airport (nm)" : "DistancefromAirport"}, inplace=True)
-        
+
         if choice == 'departure':
             df_sorted = df.sort_values(by=['Status', 'DistancefromAirport'], ascending=[True, True])
         else:
-            df_sorted = df.sort_values(by=['Status', 'DistancefromAirport'], ascending=[False, True])    
+            df_sorted = df.sort_values(by=['Status', 'DistancefromAirport'], ascending=[False, True])
     else:
         df_sorted = df
 
 def clear_screen():
     os.system('cls' if os.name == 'nt' else 'clear')
-    
-    
+
+
 #MAIN PROCEDURE
 def process_me(p_dep_arr_tag,airportcode):
     global previous_speeds
@@ -366,29 +638,29 @@ def process_me(p_dep_arr_tag,airportcode):
     global process_stats
     global process_stats_prv
     global myjson
-    
+
     #if (previous_speeds_ind == 1 and process_stats == "running"):
     #   return(myjson)
-    
+
     #print("previous run status: " + process_stats)
-    
+
     #process_stats = "running"
-    #print(p_dep_arr_tag + "/" + airportcode + "/" + "START---" + process_stats)    
+    #print(p_dep_arr_tag + "/" + airportcode + "/" + "START---" + process_stats)
 
     json_url = 'https://data.vatsim.net/v3/vatsim-data.json'
     json_url2 = 'https://gist.githubusercontent.com/friedNoodle1000/9fda31d3dd90fbc723905a21327182dd/raw/3bba677f558a935158efc9e249c0dcb48310a9ad/iata-icao.json'
-    
+
     response = requests.get(json_url)
     data = response.json()
-    
+
     #print("prev speed : " + str(previous_speeds_ind))
-    
+
     #print(json.dumps(previous_speeds, indent=2))
 
     if previous_speeds_ind == 0:
         for i in data['pilots']:
                previous_speeds[i['callsign']] = False
-    
+
     previous_speeds_ind = 1
 
     for i in data['pilots']:
@@ -399,12 +671,12 @@ def process_me(p_dep_arr_tag,airportcode):
            ##print(gs)
 
     #print(json.dumps(previous_speeds, indent=2))
-    
+
     parse_json_url(json_url, json_url2,p_dep_arr_tag,airportcode)
     #print(df_sorted.to_string(index=False))
 
     debug_ind = "Y"
-    
+
     # if debug_ind == "Y":
        # if p_dep_arr_tag == "A":
            # for index, row in df_sorted.iterrows():
@@ -414,7 +686,7 @@ def process_me(p_dep_arr_tag,airportcode):
                   # current_time = now.strftime("%H:%M:%S")
                   # print(p_dep_arr_tag + "/" + airportcode + "/" + current_time)
                   # break
-                  
+
        # if p_dep_arr_tag == "D":
            # for index, row in df_sorted.iterrows():
                # print(row['Destination'])
@@ -423,11 +695,10 @@ def process_me(p_dep_arr_tag,airportcode):
                   # current_time = now.strftime("%H:%M:%S")
                   # print(p_dep_arr_tag + "/" + airportcode + "/" + current_time)
                   # break
-    
     myjson = df_sorted.to_json(orient="records")
     #print(myjson)
     #print("---------------------------------------------------------------------------------------------------------------")
-    #time.sleep(15)    
+    #time.sleep(15)
     #print(p_dep_arr_tag + "/" + airportcode + "/" + "END")
     process_stats = "completed"
     process_stats_prv = process_stats
@@ -457,3 +728,7 @@ response2 = requests.post(
         }
     }
 )
+
+#for testing
+#print(get_flight_img1("AFR133"))
+#process_me("D","KDFW")

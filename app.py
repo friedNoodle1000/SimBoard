@@ -23,30 +23,30 @@ def get_price(p_dep_arr_tag,airportcode):
     global value
 
     value = value + 1
-    
+
     if p_dep_arr_tag == ' ':
        p_dep_arr_tag = 'D'
-       
-    #print("dep_arr_tag: " +  p_dep_arr_tag)  
+
+    print(">" +  p_dep_arr_tag + '/' + airportcode )
 
     # convert into JSON:
-    data_json = VATSIMchecker_new.process_me(p_dep_arr_tag,airportcode)    
+    data_json = VATSIMchecker_new.process_me(p_dep_arr_tag,airportcode)
 
     #print(data_json[0])
     return(data_json)
-    
+
 @app.route('/Airport/<ad_airportcode>')
 def stuff(ad_airportcode):
     ad_airportcode = ad_airportcode.upper()
     #print(ad_airportcode[0:1])
     #print(ad_airportcode[1:10])
     price=get_price(ad_airportcode[0:1],ad_airportcode[1:10])
-    
+
     price = json.loads(price)
     #print(price)
     #for items in price: #["data"]:
      #   print(items["age"])
-        
+
     return jsonify(result=price)
 
 #@app.route('/')
@@ -59,6 +59,3 @@ def index():
 #main driver function
 
 value = 0
-if __name__ == '__main__':
-
-	app.run(debug=True, host='localhost', port=4444)
